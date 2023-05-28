@@ -43,16 +43,20 @@ class Graph extends Component<IProps, {}> {
     }
     if (this.table) {
       // Load the `table` in the `<perspective-viewer>` DOM reference.
+      /* removed attribute column-pivots as we no longer need to distinguish abc and def, rather we need the ratio. */
       elem.load(this.table);
       elem.setAttribute('view', 'y_line');
-      elem.setAttribute('column-pivots', '["stock"]');
       elem.setAttribute('row-pivots', '["timestamp"]');
-      elem.setAttribute('columns', '["top_ask_price"]');
+      // column attributes are what we want to track which is ratio lower and upperbound and when we should be alerted (trigger_alert).
+      elem.setAttribute('columns', '["ratio", "lower_bound", "uppder_bound", "trigger_alert"]');
       elem.setAttribute('aggregates', JSON.stringify({
-        stock: 'distinctcount',
-        top_ask_price: 'avg',
-        top_bid_price: 'avg',
+        price_abc: 'avg',
+        price_def: 'avg',
+        ratio: 'avg',
         timestamp: 'distinct count',
+        upper_bound: 'avg',
+        lower_bound: 'avg',
+        trigger_alert: 'avg',
       }));
     }
   }
