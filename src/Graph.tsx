@@ -21,13 +21,22 @@ class Graph extends Component<IProps, {}> {
   componentDidMount() {
     // Get element from the DOM.
     const elem = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
-
+    
+    /*changed schema to reflect what we want once we click stream. we are tracking the ratios of two stocks also
+    want to track upper_bound and lower_bound and then alert us when the bounds are cross (trigger_alert). in order
+    to calculate the ratio we need price_abc and price_def but wont be configuring the graph show them. finally
+    since this is being tracked with respect to time, also need a time stamp field
+    */
     const schema = {
-      stock: 'string',
-      top_ask_price: 'float',
-      top_bid_price: 'float',
+      price_abc: 'float',
+      price_def: 'float',
+      ratio: 'float',
       timestamp: 'date',
+      upper_bound: 'float',
+      lower_bound: 'float',
+      trigger_alert: 'float',
     };
+
 
     if (window.perspective && window.perspective.worker()) {
       this.table = window.perspective.worker().table(schema);
